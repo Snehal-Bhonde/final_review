@@ -117,10 +117,7 @@ class _RecordsPageState extends State<UsersSqfPage> {
                        DatabaseRepository.instance.delete(element.userId!).then((value) {
                          ScaffoldMessenger.of(context)
                              .showSnackBar( SnackBar(content: Text('Deleted ${element.userId!}')));
-                         Navigator.pop(context);
-                         setState(() {
-                           getRecords();
-                         });
+                         getRecords();
                        }).catchError((e) => debugPrint(e.toString()));
                     })
           .catchError((onError){
