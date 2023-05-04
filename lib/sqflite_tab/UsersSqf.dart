@@ -99,7 +99,8 @@ class _RecordsPageState extends State<UsersSqfPage> {
 
   addRecordstoFB(){
     userForms.forEach((element) {
-      final userForm = <String,dynamic>{
+      if(element.is_upload==0){
+      final userForm = <String, dynamic>{
         "firstName": element.firstName,
         "lastName": element.lastName,
         "mobNo": element.mobNo,
@@ -113,18 +114,22 @@ class _RecordsPageState extends State<UsersSqfPage> {
           .push()
           .set(userForm)
           .then((_) async {
-                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Users added in Firebase')));
-                       DatabaseRepository.instance.delete(element.userId!).then((value) {
-                         ScaffoldMessenger.of(context)
-                             .showSnackBar( SnackBar(content: Text('Deleted ${element.userId!}')));
-                         getRecords();
-                       }).catchError((e) => debugPrint(e.toString()));
-                    })
-          .catchError((onError){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError.toString())));
-          });
-    });
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Users added in Firebase')));
+        DatabaseRepository.instance.delete(element.userId!).then((value) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
+              SnackBar(content: Text('Deleted ${element.userId!}')));
+          getRecords();
+        }).catchError((e) => debugPrint(e.toString()));
+      })
+          .catchError((onError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(onError.toString())));
+      });
+    }
 
+    });
   }
 
   void getRecords() async {

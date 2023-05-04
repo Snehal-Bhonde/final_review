@@ -96,7 +96,7 @@ class _SignupPageState  extends State<SignUpPage> {
         lastName: lastNameController.text,
         mobNo: int.parse(mobNoController.text),
         email: emailController.text,
-        is_upload: 0,
+        is_upload: hasNetwork()==true?1:0,
       );
         await DatabaseRepository.instance.insert(userForm: userForm).then((value){
           ScaffoldMessenger.of(context)
@@ -148,14 +148,14 @@ class _SignupPageState  extends State<SignUpPage> {
           print("Valid data");
           bool isConnected= await hasNetwork();
           print("isConnected $isConnected");
-          if(isConnected==true){
-            print("FB data");
-            addRecordFB();
-          }
-          else if(isConnected==false){
+          // if(isConnected==true){
+          //   print("FB data");
+          //   addRecordFB();
+          // }
+          // else if(isConnected==false){
             print("sqf data");
             addRecordSqf();
-          }
+         // }
         }
       },
 
